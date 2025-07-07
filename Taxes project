@@ -1,0 +1,8 @@
+<html lang="en">
+<heading>SimpleTax</heading>
+  <div>
+  <a href="link" class= "signUp" > Sign Up</a>
+  </div>
+  <div>
+  <a href="link" class= "LogIn"> log In</a>
+  </div>
