@@ -1,6 +1,10 @@
-body {
-  background-color: #f5f5f5;
-  font-family: Arial, sans-serif;
+.SignUp{
   text-align: center;
-  padding: 20px;
+  padding: 20
+  margin:5 
+}
+.LogIn{
+  text-align: center;
+  padding:5
+  margin:20 
 }
