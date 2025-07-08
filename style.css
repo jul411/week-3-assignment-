@@ -1,10 +1,17 @@
-.SignUp{
+.SignUp,
+.LogIn {
+  display: inline-block;
   text-align: center;
-  padding:20px;
-  margin:5px;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #0056b3;
+  border-radius: 6px;
+  cursor: pointer;
 }
-.LogIn{
-  text-align: center;
-  padding:5px;
-  margin:20px;
+.SignUp:hover,
+.LogIn:hover {
+  background-color: blue;
 }
