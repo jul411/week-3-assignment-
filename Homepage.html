@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Homepage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7f9;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background-color: white;
+      padding: 30px;
+      width: 250px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: left;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #003d80;
+    }
+
+    .logout-btn {
+      margin-top: 40px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="welcomeText">Welcome!</h1>
+
+  <div class="card-container">
+    <div class="card" onclick="location.href='w1040.html'">
+      <h2>Fill Out W-1040</h2>
+      <p>Get started on your W-1040 federal tax return form. Click here to begin filling out your details securely.</p>
+    </div>
+
+    <div class="card" onclick="location.href='w-2.html'">
+      <h2>View W-2</h2>
+      <p>Access your W-2 form for employment income reporting. Make sure your information is accurate.</p>
+    </div>
+  </div>
+
+  <button class="logout-btn" onclick="logout()">Log Out</button>
+
+  <script>
+    const username = localStorage.getItem("username");
+
+    if (!username) {
+      window.location.href = "signup.html";
+    } else {
+      document.getElementById("welcomeText").textContent = "Welcome, " + username + "!";
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "signup.html";
+    }
+  </script>
+</body>
+</html>
