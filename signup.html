@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><title>Sign Up</title>
+<style>body{font-family:Arial;max-width:400px;margin:40px auto;} .error{color:red;font-weight:bold;}</style>
+</head><body>
+  <h1>Create Account</h1>
+  <form id="signupForm">
+    <label>Email:</label><br>
+    <input type="email" id="email" required><br><br>
+    <label>Password:</label><br>
+    <input type="password" id="password" required><br><br>
+    <label>Confirm Password:</label><br>
+    <input type="password" id="confirmPassword" required><br><br>
+    <button type="submit">Sign Up</button>
+  </form>
+  <p id="errorMessage" class="error"></p>
+  <p><a href="login.html">Already have an account? Log in</a></p>
+
+<script>
+  async function hashPassword(pw) {
+    const buff=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(pw));
+    return Array.from(new Uint8Array(buff)).map(b=>b.toString(16).padStart(2,"0")).join("");
+  }
+  function validPw(pw) {
+    return /[A-Z]/.test(pw)&&/[a-z]/.test(pw)&&/[^A-Za-z0-9]/.test(pw)&&pw.length>=8;
+  }
+  document.getElementById("signupForm").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const email=document.getElementById("email").value.trim().toLowerCase();
+    const pw=document.getElementById("password").value;
+    const cpw=document.getElementById("confirmPassword").value;
+    const msg=document.getElementById("errorMessage");
+    if(!email||!pw||!cpw){msg.textContent="All fields required.";return;}
+    if(!validPw(pw)){msg.textContent="Password must be 8+ chars with upper, lower & special.";return;}
+    if(pw!==cpw){msg.textContent="Passwords don’t match.";return;}
+    const users=JSON.parse(localStorage.getItem("users")||"{}");
+    if(users[email]){msg.textContent="Email already registered.";return;}
+    const hashed=await hashPassword(pw);
+    users[email]=hashed;
+    localStorage.setItem("users",JSON.stringify(users));
+    localStorage.setItem("username",email);
+    window.location.href="homepage.html";
+  });
+</script>
+</body></html>
