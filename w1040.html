@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>W‑1040 Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      margin: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #003d80;
+      margin-bottom: 20px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .section label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    .section input, .section select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: #003d80;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .submit-btn:hover {
+      background: #0059b3;
+    }
+    #successMsg {
+      color: green;
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Form W‑1040 (Individual Income Tax Return)</h1>
+    <form id="form1040">
+      <!-- Section 1: Personal Info -->
+      <div class="section">
+        <label>Full Name</label>
+        <input type="text" id="fullname" placeholder="John Doe">
+        <label>Social Security Number</label>
+        <input type="text" id="ssn" placeholder="123‑45‑6789">
+        <label>Filing Status</label>
+        <select id="status">
+          <option>Single</option>
+          <option>Married Filing Jointly</option>
+          <option>Married Filing Separately</option>
+          <option>Head of Household</option>
+        </select>
+        <label>Number of Dependents</label>
+        <input type="number" id="dependents" min="0" value="0">
+      </div>
+
+      <!-- Section 2: Income -->
+      <div class="section">
+        <label>Wages, salary, tips (Line 1)</label>
+        <input type="number" id="wages" step="0.01">
+        <label>Taxable interest & dividends (Line 2b–3b)</label>
+        <input type="number" id="interest" step="0.01">
+        <label>Total taxable income (AGI, Line 11)</label>
+        <input type="number" id="agi" step="0.01">
+      </div>
+
+      <!-- Section 3: Taxes, Credits, Payments -->
+      <div class="section">
+        <label>Total tax (Line 24)</label>
+        <input type="number" id="totalTax" step="0.01">
+        <label>Withheld (Line 25d)</label>
+        <input type="number" id="withheld" step="0.01">
+        <label>Refund or Amount Owed (Line 37 or 38)</label>
+        <input type="number" id="refund" step="0.01">
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Return</button>
+      <p id="successMsg"></p>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("form1040").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const fullname = document.getElementById("fullname").value;
+      const ssn = document.getElementById("ssn").value;
+      const status = document.getElementById("status").value;
+      const dependents = document.getElementById("dependents").value;
+      const wages = document.getElementById("wages").value;
+      const interest = document.getElementById("interest").value;
+      const agi = document.getElementById("agi").value;
+      const totalTax = document.getElementById("totalTax").value;
+      const withheld = document.getElementById("withheld").value;
+      const refund = document.getElementById("refund").value;
+
+      // Store values in localStorage
+      localStorage.setItem("1040_fullname", fullname);
+      localStorage.setItem("1040_ssn", ssn);
+      localStorage.setItem("1040_status", status);
+      localStorage.setItem("1040_dependents", dependents);
+      localStorage.setItem("1040_wages", wages);
+      localStorage.setItem("1040_interest", interest);
+      localStorage.setItem("1040_agi", agi);
+      localStorage.setItem("1040_totalTax", totalTax);
+      localStorage.setItem("1040_withheld", withheld);
+      localStorage.setItem("1040_refund", refund);
+
+      document.getElementById("successMsg").textContent = "1040 information saved locally!";
+    });
+  </script>
+</body>
+</html>
