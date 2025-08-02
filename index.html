@@ -1,25 +1,87 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SimpleTax</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header>
-    <h1>Welcome to SimpleTax</h1>
+
+<body class="indexBody">
+  <header class="home-header">
+    <div class="header-flex">
+      <h1>Welcome to SimpleTax</h1>
+      <img src="https://i.imgur.com/yiX40k3.png" alt="Taxes Icon" width="300" height="200" />
+    </div>
   </header>
 
   <main>
-    <nav aria-label="User actions">
-      <ul>
-        <li>
-          <a href="#" class="SignUp" role="button">Sign Up</a>
-        </li>
-        <li>
-          <a href="#" class="LogIn" role="button">Log In</a>
-        </li>
-      </ul>
-    </nav>
+    <div class="left-section">
+      <h2>Your simple, speedy, and secure tax solution.</h2>
+      <p><strong>Fast, Free, and Easy to Use</strong><br>
+        SimpleTax is built with you in mind. Whether you're filing your taxes for the first time or you're a seasoned
+        pro, our platform simplifies the process so you can finish quickly and accurately—without the stress.</p>
+      <p><strong>File with Confidence</strong><br>
+        SimpleTax gives you peace of mind, knowing that your return is accurate, secure, and filed on time.</p>
+      <p><strong>Included Forms:</strong><br>
+        W-2 (from jobs)<br>
+        1040 (main tax form)<br>
+        All for free.</p>
+    </div>
+
+    <div class="center-section">
+      <img src="https://i.imgur.com/eeeJ48Q.png" alt="Fast Icon" width="120" height="120" />
+      <img src="https://i.imgur.com/gHN8ThW.png" alt="Simple Icon" width="210" height="145" />
+      <img src="https://i.imgur.com/W6U8kdN.png" alt="Dependable Icon" width="165" height="155" />
+    </div>
+
+    <div class="right-section">
+      <h3>Get Started Today</h3>
+      <p>Sign up or log in to begin your tax journey with ease and security.</p>
+      <img
+        src="https://a57.foxnews.com/static.foxbusiness.com/foxbusiness.com/content/uploads/2023/02/931/523/income-tax-return-1040.jpg?ve=1&tl=1"
+        alt="Tax Image" class="tax-image" width="300" height="200" />
+      <div class="button-group">
+        <a href="signup.html"><button class="SignUp">Sign Up</button></a>
+        <a href="login.html"><button class="LogIn">Log In</button></a>
+      </div>
+    </div>
   </main>
+
+  <footer class="bottom-bar">
+    <div class="bar-content">
+      <p>© 2025 Lake County, Indiana. All rights reserved.</p>
+      <div class="footer-extras">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="aboutus.html">About SimpleTax</a>
+        <a href="termsofservice.html">Terms of Service</a>
+        <div class="newsletter-section">
+          <p>Subscribe for updates</p>
+          <form class="newsletter-form" onsubmit="return false;">
+            <input type="email" placeholder="Enter your email" required />
+            <button type="submit">Subscribe</button>
+          </form>
+          <p class="thank-you-message" style="display: none; color: green; font-weight: bold;">Thank you for
+            subscribing!</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    const form = document.querySelector('.newsletter-form');
+    const input = form.querySelector('input');
+    const thankYouMsg = document.querySelector('.thank-you-message');
+
+    form.addEventListener('submit', () => {
+      const email = input.value.trim();
+      if (email) {
+        localStorage.setItem('subscribedEmail', email);
+        form.style.display = 'none';
+        thankYouMsg.style.display = 'block';
+      }
+    });
+  </script>
 </body>
+
 </html>
