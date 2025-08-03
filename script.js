@@ -14,7 +14,6 @@ function validPassword(pw) {
   return hasUpper && hasLower && hasSpecial && isLongEnough;
 }
 
-// Handle Signup
 const signupForm = document.getElementById("signupForm");
 if (signupForm) {
   signupForm.addEventListener("submit", async function (e) {
@@ -40,7 +39,6 @@ if (signupForm) {
       return;
     }
 
-    // ✅ Load latest users from localStorage
     const storedUsers = localStorage.getItem("users");
     const users = storedUsers ? JSON.parse(storedUsers) : {};
 
@@ -53,14 +51,13 @@ if (signupForm) {
     users[email] = hashedPassword;
 
     localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("username", email); // optional: used for session
+    localStorage.setItem("username", email);
 
     errorMsg.textContent = "";
-    window.location.href = "homepage.html"; // redirect after successful signup
+    window.location.href = "homepage.html";
   });
 }
 
-// Handle Login
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", async function (e) {
@@ -89,8 +86,8 @@ if (loginForm) {
       return;
     }
 
-    localStorage.setItem("username", email); // optional: used for session
+    localStorage.setItem("username", email);
     errorMsg.textContent = "";
-    window.location.href = "homepage.html"; // redirect after successful login
+    window.location.href = "homepage.html";
   });
 }
