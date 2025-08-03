@@ -1,120 +1,96 @@
-'use strict';
-
-const http = require('http');
-const https = require('https');
-
-const defaults = require('./defaults.js');
-const externalRequest = require('./external-request.js');
-
-function devToolsInterface(path, options, callback) {
-    const transport = options.secure ? https : http;
-    const requestOptions = {
-        method: options.method,
-        host: options.host || defaults.HOST,
-        port: options.port || defaults.PORT,
-        useHostName: options.useHostName,
-        path: (options.alterPath ? options.alterPath(path) : path)
-    };
-    externalRequest(transport, requestOptions, callback);
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-function promisesWrapper(func) {
-    return (options, callback) => {
-        if (typeof options === 'function') {
-            callback = options;
-            options = undefined;
-        }
-        options = options || {};
-        if (typeof callback === 'function') {
-            func(options, callback);
-            return undefined;
-        } else {
-            return new Promise((fulfill, reject) => {
-                func(options, (err, result) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        fulfill(result);
-                    }
-                });
-            });
-        }
-    };
+function validPassword(pw) {
+  const hasUpper = /[A-Z]/.test(pw);
+  const hasLower = /[a-z]/.test(pw);
+  const hasSpecial = /[^A-Za-z0-9]/.test(pw);
+  const isLongEnough = pw.length >= 8;
+  return hasUpper && hasLower && hasSpecial && isLongEnough;
 }
 
-function Protocol(options, callback) {
-    if (options.local) {
-        const localDescriptor = require('./protocol.json');
-        callback(null, localDescriptor);
-        return;
+// Handle Signup
+const signupForm = document.getElementById("signupForm");
+if (signupForm) {
+  signupForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const errorMsg = document.getElementById("errorMessage");
+
+    if (!email || !password || !confirmPassword) {
+      errorMsg.textContent = "All fields are required.";
+      return;
     }
-    devToolsInterface('/json/protocol', options, (err, descriptor) => {
-        if (err) {
-            callback(err);
-        } else {
-            callback(null, JSON.parse(descriptor));
-        }
-    });
-}
 
-function List(options, callback) {
-    devToolsInterface('/json/list', options, (err, tabs) => {
-        if (err) {
-            callback(err);
-        } else {
-            callback(null, JSON.parse(tabs));
-        }
-    });
-}
-
-function New(options, callback) {
-    let path = '/json/new';
-    if (Object.prototype.hasOwnProperty.call(options, 'url')) {
-        path += `?${options.url}`;
+    if (!validPassword(password)) {
+      errorMsg.textContent = "Password must be at least 8 characters, with uppercase, lowercase, and special character.";
+      return;
     }
-    options.method = options.method || 'PUT';
-    devToolsInterface(path, options, (err, tab) => {
-        if (err) {
-            callback(err);
-        } else {
-            callback(null, JSON.parse(tab));
-        }
-    });
+
+    if (password !== confirmPassword) {
+      errorMsg.textContent = "Passwords do not match.";
+      return;
+    }
+
+    // ✅ Load latest users from localStorage
+    const storedUsers = localStorage.getItem("users");
+    const users = storedUsers ? JSON.parse(storedUsers) : {};
+
+    if (users[email]) {
+      errorMsg.textContent = "Email is already registered.";
+      return;
+    }
+
+    const hashedPassword = await hashPassword(password);
+    users[email] = hashedPassword;
+
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("username", email); // optional: used for session
+
+    errorMsg.textContent = "";
+    window.location.href = "homepage.html"; // redirect after successful signup
+  });
 }
 
-function Activate(options, callback) {
-    devToolsInterface('/json/activate/' + options.id, options, (err) => {
-        if (err) {
-            callback(err);
-        } else {
-            callback(null);
-        }
-    });
-}
+// Handle Login
+const loginForm = document.getElementById("loginForm");
+if (loginForm) {
+  loginForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-function Close(options, callback) {
-    devToolsInterface('/json/close/' + options.id, options, (err) => {
-        if (err) {
-            callback(err);
-        } else {
-            callback(null);
-        }
-    });
-}
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+    const errorMsg = document.getElementById("errorMessage");
 
-function Version(options, callback) {
-    devToolsInterface('/json/version', options, (err, versionInfo) => {
-        if (err) {
-            callback(err);
-        } else {
-            callback(null, JSON.parse(versionInfo));
-        }
-    });
-}
+    if (!email || !password) {
+      errorMsg.textContent = "Please fill both fields.";
+      return;
+    }
 
-module.exports.Protocol = promisesWrapper(Protocol);
-module.exports.List = promisesWrapper(List);
-module.exports.New = promisesWrapper(New);
-module.exports.Activate = promisesWrapper(Activate);
-module.exports.Close = promisesWrapper(Close);
-module.exports.Version = promisesWrapper(Version);
+    const users = JSON.parse(localStorage.getItem("users") || "{}");
+
+    if (!users[email]) {
+      errorMsg.textContent = "Account does not exist.";
+      return;
+    }
+
+    const hashedPassword = await hashPassword(password);
+
+    if (users[email] !== hashedPassword) {
+      errorMsg.textContent = "Incorrect password.";
+      return;
+    }
+
+    localStorage.setItem("username", email); // optional: used for session
+    errorMsg.textContent = "";
+    window.location.href = "homepage.html"; // redirect after successful login
+  });
+}
