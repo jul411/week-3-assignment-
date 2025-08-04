@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fill out the W-1040 form easily and save your information locally with our simple tax return form." />
   <title>W‑1040 Form</title>
   <style>
     body {
@@ -10,34 +12,41 @@
       background: #f7f9fc;
       margin: 20px;
     }
+
     .container {
       max-width: 800px;
       margin: auto;
       background: white;
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+
     h1 {
       text-align: center;
       color: #003d80;
       margin-bottom: 20px;
     }
+
     .section {
       margin-bottom: 20px;
     }
+
     .section label {
       display: block;
       margin-bottom: 8px;
       font-weight: bold;
     }
-    .section input, .section select {
+
+    .section input,
+    .section select {
       width: 100%;
       padding: 8px;
       margin-bottom: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+
     .submit-btn {
       display: block;
       width: 100%;
@@ -49,9 +58,11 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
     .submit-btn:hover {
       background: #0059b3;
     }
+
     #successMsg {
       color: green;
       text-align: center;
@@ -59,45 +70,50 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Form W‑1040 (Individual Income Tax Return)</h1>
     <form id="form1040">
-      <!-- Section 1: Personal Info -->
       <div class="section">
-        <label>Full Name</label>
-        <input type="text" id="fullname" placeholder="John Doe">
-        <label>Social Security Number</label>
-        <input type="text" id="ssn" placeholder="123‑45‑6789">
-        <label>Filing Status</label>
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" placeholder="John Doe" />
+
+        <label for="ssn">Social Security Number</label>
+        <input type="text" id="ssn" placeholder="123‑45‑6789" />
+
+        <label for="status">Filing Status</label>
         <select id="status">
           <option>Single</option>
           <option>Married Filing Jointly</option>
           <option>Married Filing Separately</option>
           <option>Head of Household</option>
         </select>
-        <label>Number of Dependents</label>
-        <input type="number" id="dependents" min="0" value="0">
+
+        <label for="dependents">Number of Dependents</label>
+        <input type="number" id="dependents" min="0" value="0" />
       </div>
 
-      <!-- Section 2: Income -->
       <div class="section">
-        <label>Wages, salary, tips (Line 1)</label>
-        <input type="number" id="wages" step="0.01">
-        <label>Taxable interest & dividends (Line 2b–3b)</label>
-        <input type="number" id="interest" step="0.01">
-        <label>Total taxable income (AGI, Line 11)</label>
-        <input type="number" id="agi" step="0.01">
+        <label for="wages">Wages, salary, tips (Line 1)</label>
+        <input type="text" id="wages" placeholder="$0.00" />
+
+        <label for="interest">Taxable interest & dividends (Line 2b–3b)</label>
+        <input type="text" id="interest" placeholder="$0.00" />
+
+        <label for="agi">Total taxable income (AGI, Line 11)</label>
+        <input type="text" id="agi" placeholder="$0.00" />
       </div>
 
-      <!-- Section 3: Taxes, Credits, Payments -->
       <div class="section">
-        <label>Total tax (Line 24)</label>
-        <input type="number" id="totalTax" step="0.01">
-        <label>Withheld (Line 25d)</label>
-        <input type="number" id="withheld" step="0.01">
-        <label>Refund or Amount Owed (Line 37 or 38)</label>
-        <input type="number" id="refund" step="0.01">
+        <label for="totalTax">Total tax (Line 24)</label>
+        <input type="text" id="totalTax" placeholder="$0.00" />
+
+        <label for="withheld">Withheld (Line 25d)</label>
+        <input type="text" id="withheld" placeholder="$0.00" />
+
+        <label for="refund">Refund or Amount Owed (Line 37 or 38)</label>
+        <input type="text" id="refund" placeholder="$0.00" />
       </div>
 
       <button type="submit" class="submit-btn">Submit Return</button>
@@ -106,7 +122,7 @@
   </div>
 
   <script>
-    document.getElementById("form1040").addEventListener("submit", function(e) {
+    document.getElementById("form1040").addEventListener("submit", function (e) {
       e.preventDefault();
 
       const fullname = document.getElementById("fullname").value;
@@ -120,7 +136,6 @@
       const withheld = document.getElementById("withheld").value;
       const refund = document.getElementById("refund").value;
 
-      // Store values in localStorage
       localStorage.setItem("1040_fullname", fullname);
       localStorage.setItem("1040_ssn", ssn);
       localStorage.setItem("1040_status", status);
@@ -136,4 +151,5 @@
     });
   </script>
 </body>
+
 </html>
