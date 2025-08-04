@@ -2,26 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>W-2 Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Enter and manage your W-2 information securely using SimpleTax's easy-to-use online tax form interface.">
+  <title>W-2 Form - SimpleTax</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f7f9;
-      padding: 30px;
+      background-color: #ffffff;
+      color: #000;
+      margin: 0;
+      padding: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    h1 {
-      text-align: center;
+    h1, h2 {
       color: #003d80;
-    }
-
-    form {
-      max-width: 600px;
-      margin: 0 auto;
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     label {
@@ -30,94 +27,182 @@
       font-weight: bold;
     }
 
-    input {
+    input[type="text"] {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    input:focus {
+      outline: 2px solid #003d80;
     }
 
     button {
       margin-top: 20px;
-      padding: 10px 20px;
+      padding: 10px 15px;
+      font-size: 16px;
       background-color: #003d80;
       color: white;
       border: none;
-      border-radius: 5px;
       cursor: pointer;
+      border-radius: 5px;
+      margin-right: 10px;
     }
 
     button:hover {
-      background-color: #00295e;
+      background-color: #002e66;
+    }
+
+    #deleteBtn {
+      background-color: #c0392b;
+    }
+
+    #deleteBtn:hover {
+      background-color: #962d22;
+    }
+
+    .w2-list {
+      margin-top: 40px;
+    }
+
+    .w2-item {
+      background-color: #f0f0f0;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .w2-buttons button {
+      margin-left: 5px;
+    }
+
+    a {
+      color: #003d80;
+      text-decoration: underline;
+    }
+
+    a:focus, a:hover {
+      outline: 2px dashed #003d80;
+      background-color: #e0eaff;
     }
   </style>
 </head>
 <body>
   <h1>W-2 Form</h1>
-  <form id="w2Form">
+
+  <form id="w2Form" novalidate>
+    <input type="hidden" id="currentKey" value="">
+
     <label for="employerName">Employer Name</label>
-    <input type="text" id="employerName" required>
+    <input type="text" id="employerName" placeholder="Employer Inc." required>
 
-    <label for="employeeName">Employee Name</label>
-    <input type="text" id="employeeName" required>
+    <label for="wages">Wages, tips, other compensation (Box 1)</label>
+    <input type="text" id="wages" placeholder="$0.00" required>
 
-    <label for="wages">Wages, Tips, Other Compensation</label>
-    <input type="number" id="wages" required>
+    <label for="federalIncomeTax">Federal income tax withheld (Box 2)</label>
+    <input type="text" id="federalIncomeTax" placeholder="$0.00">
 
-    <label for="federalTax">Federal Income Tax Withheld</label>
-    <input type="number" id="federalTax" required>
+    <label for="socialSecurityWages">Social Security wages (Box 3)</label>
+    <input type="text" id="socialSecurityWages" placeholder="$0.00">
 
-    <label for="ssWages">Social Security Wages</label>
-    <input type="number" id="ssWages" required>
+    <label for="socialSecurityTax">Social Security tax withheld (Box 4)</label>
+    <input type="text" id="socialSecurityTax" placeholder="$0.00">
 
-    <label for="ssTax">Social Security Tax Withheld</label>
-    <input type="number" id="ssTax" required>
+    <label for="medicareWages">Medicare wages and tips (Box 5)</label>
+    <input type="text" id="medicareWages" placeholder="$0.00">
 
-    <label for="medicareWages">Medicare Wages and Tips</label>
-    <input type="number" id="medicareWages" required>
+    <label for="medicareTax">Medicare tax withheld (Box 6)</label>
+    <input type="text" id="medicareTax" placeholder="$0.00">
 
-    <label for="medicareTax">Medicare Tax Withheld</label>
-    <input type="number" id="medicareTax" required>
-
-    <button type="button" onclick="saveW2()">Save W-2</button>
-    <button type="button" onclick="previewW2()">Preview Saved</button>
+    <button type="submit">Save W-2</button>
+    <button type="button" id="deleteBtn" style="display: none;">Delete This W-2</button>
   </form>
 
-  <script>
-    function saveW2() {
-      const w2Data = {
-        employerName: document.getElementById("employerName").value,
-        employeeName: document.getElementById("employeeName").value,
-        wages: document.getElementById("wages").value,
-        federalTax: document.getElementById("federalTax").value,
-        ssWages: document.getElementById("ssWages").value,
-        ssTax: document.getElementById("ssTax").value,
-        medicareWages: document.getElementById("medicareWages").value,
-        medicareTax: document.getElementById("medicareTax").value
-      };
+  <h2>Saved W-2s</h2>
+  <div id="w2List" class="w2-list"></div>
 
-      localStorage.setItem("w2Data", JSON.stringify(w2Data));
-      alert("W-2 form saved successfully.");
+  <script>
+    const form = document.getElementById("w2Form");
+    const deleteBtn = document.getElementById("deleteBtn");
+    const currentKey = document.getElementById("currentKey");
+    const w2ListDiv = document.getElementById("w2List");
+
+    const fields = [
+      "employerName",
+      "wages",
+      "federalIncomeTax",
+      "socialSecurityWages",
+      "socialSecurityTax",
+      "medicareWages",
+      "medicareTax"
+    ];
+
+    function loadW2List() {
+      w2ListDiv.innerHTML = "";
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith("w2_")) {
+          const data = JSON.parse(localStorage.getItem(key));
+          const div = document.createElement("div");
+          div.className = "w2-item";
+          div.innerHTML = `
+            <div><strong>${data.employerName || "(No Name)"}</strong></div>
+            <div class="w2-buttons">
+              <button onclick="viewW2('${key}')">View</button>
+              <button onclick="deleteW2('${key}')">Delete</button>
+            </div>
+          `;
+          w2ListDiv.appendChild(div);
+        }
+      });
     }
 
-    function previewW2() {
-      const saved = localStorage.getItem("w2Data");
-      if (saved) {
-        const data = JSON.parse(saved);
-        alert("Saved W-2 Info:\n\n" +
-              `Employer: ${data.employerName}\n` +
-              `Employee: ${data.employeeName}\n` +
-              `Wages: $${data.wages}\n` +
-              `Federal Tax: $${data.federalTax}\n` +
-              `SS Wages: $${data.ssWages}\n` +
-              `SS Tax: $${data.ssTax}\n` +
-              `Medicare Wages: $${data.medicareWages}\n` +
-              `Medicare Tax: $${data.medicareTax}`);
-      } else {
-        alert("No W-2 data saved.");
+    function viewW2(key) {
+      const data = JSON.parse(localStorage.getItem(key));
+      fields.forEach(f => {
+        document.getElementById(f).value = data[f] || "";
+      });
+      currentKey.value = key;
+      deleteBtn.style.display = "inline-block";
+    }
+
+    function deleteW2(key) {
+      if (confirm("Are you sure you want to delete this W-2?")) {
+        localStorage.removeItem(key);
+        if (currentKey.value === key) {
+          form.reset();
+          currentKey.value = "";
+          deleteBtn.style.display = "none";
+        }
+        loadW2List();
       }
     }
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const data = {};
+      fields.forEach(f => {
+        data[f] = document.getElementById(f).value;
+      });
+
+      const key = currentKey.value || "w2_" + Date.now();
+      localStorage.setItem(key, JSON.stringify(data));
+      currentKey.value = key;
+      deleteBtn.style.display = "inline-block";
+      alert("W-2 saved!");
+      loadW2List();
+    });
+
+    deleteBtn.addEventListener("click", () => {
+      if (currentKey.value) {
+        deleteW2(currentKey.value);
+      }
+    });
+
+    loadW2List();
   </script>
 </body>
 </html>
