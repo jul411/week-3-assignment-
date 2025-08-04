@@ -5,7 +5,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SimpleTax</title>
+  <meta name="description" content="SimpleTax is your fast, free, and secure online tool to file taxes easily with included W-2 and 1040 forms." />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    button {
+      min-width: 48px;
+      min-height: 48px;
+      padding: 12px 20px;
+      font-size: 18px;
+      margin: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .button-group a {
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    .newsletter-section {
+      margin-bottom: 0px;
+      position: relative;
+    }
+
+    .newsletter-form input[type="email"] {
+      margin-bottom: 12px;
+      font-size: 16px;
+      padding: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .newsletter-form button {
+      padding: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      min-width: 48px;
+      min-height: 48px;
+      border-radius: 6px;
+      background-color: #003d80;
+      color: white;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .newsletter-form button:hover {
+      background-color: #002a5c;
+    }
+  </style>
 </head>
 
 <body class="indexBody">
@@ -43,8 +98,8 @@
         src="https://a57.foxnews.com/static.foxbusiness.com/foxbusiness.com/content/uploads/2023/02/931/523/income-tax-return-1040.jpg?ve=1&tl=1"
         alt="Tax Image" class="tax-image" width="300" height="200" />
       <div class="button-group">
-        <a href="signup.html"><button class="SignUp">Sign Up</button></a>
-        <a href="login.html"><button class="LogIn">Log In</button></a>
+        <a href="signup.html"><button class="SignUp" type="button">Sign Up</button></a>
+        <a href="login.html"><button class="LogIn" type="button">Log In</button></a>
       </div>
     </div>
   </main>
