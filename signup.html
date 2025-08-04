@@ -15,6 +15,10 @@
       color: red;
       font-weight: bold;
     }
+    .success {
+      color: green;
+      font-weight: bold;
+    }
     label {
       font-weight: bold;
     }
@@ -36,8 +40,39 @@
   </form>
 
   <p id="errorMessage" class="error"></p>
+  <p id="successMessage" class="success"></p>
   <p><a href="login.html">Already have an account? Log in</a></p>
 
-  <script src="script.js"></script>
+  <script>
+    const form = document.getElementById('signupForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // prevent form from submitting normally
+
+      errorMessage.textContent = '';
+      successMessage.textContent = '';
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (password !== confirmPassword) {
+        errorMessage.textContent = "Passwords do not match.";
+        return;
+      }
+
+      // Basic example: save user to localStorage
+      // In a real app, you would never save passwords in localStorage and you'd use a secure backend
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userPassword', password);
+
+      successMessage.textContent = "Account created successfully!";
+
+      // Optionally, clear the form
+      form.reset();
+    });
+  </script>
 </body>
 </html>
