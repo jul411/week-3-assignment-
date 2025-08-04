@@ -18,42 +18,33 @@ const signupForm = document.getElementById("signupForm");
 if (signupForm) {
   signupForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
     const errorMsg = document.getElementById("errorMessage");
-
+    errorMsg.textContent = "";
     if (!email || !password || !confirmPassword) {
       errorMsg.textContent = "All fields are required.";
       return;
     }
-
     if (!validPassword(password)) {
       errorMsg.textContent = "Password must be at least 8 characters, with uppercase, lowercase, and special character.";
       return;
     }
-
     if (password !== confirmPassword) {
       errorMsg.textContent = "Passwords do not match.";
       return;
     }
-
     const storedUsers = localStorage.getItem("users");
     const users = storedUsers ? JSON.parse(storedUsers) : {};
-
     if (users[email]) {
       errorMsg.textContent = "Email is already registered.";
       return;
     }
-
     const hashedPassword = await hashPassword(password);
     users[email] = hashedPassword;
-
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("username", email);
-
-    errorMsg.textContent = "";
     window.location.href = "homepage.html";
   });
 }
@@ -62,32 +53,25 @@ const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value;
     const errorMsg = document.getElementById("errorMessage");
-
+    errorMsg.textContent = "";
     if (!email || !password) {
       errorMsg.textContent = "Please fill both fields.";
       return;
     }
-
     const users = JSON.parse(localStorage.getItem("users") || "{}");
-
     if (!users[email]) {
       errorMsg.textContent = "Account does not exist.";
       return;
     }
-
     const hashedPassword = await hashPassword(password);
-
     if (users[email] !== hashedPassword) {
       errorMsg.textContent = "Incorrect password.";
       return;
     }
-
     localStorage.setItem("username", email);
-    errorMsg.textContent = "";
     window.location.href = "homepage.html";
   });
 }
