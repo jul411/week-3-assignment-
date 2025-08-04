@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Enter and manage your W-2 information securely using SimpleTax's easy-to-use online tax form interface.">
   <title>W-2 Form - SimpleTax</title>
@@ -89,10 +89,23 @@
       outline: 2px dashed #003d80;
       background-color: #e0eaff;
     }
+
+    /* New styling for the image */
+    .form-image {
+      display: block;
+      max-width: 1200px; /* increased size */
+      width: 100%;
+      height: auto;
+      margin: 15px auto 30px auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
   </style>
 </head>
 <body>
   <h1>W-2 Form</h1>
+  
+  <img src="images/w-2.jpg" alt="W-2 Form Example" class="form-image" />
 
   <form id="w2Form" novalidate>
     <input type="hidden" id="currentKey" value="">
