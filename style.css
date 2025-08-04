@@ -222,3 +222,23 @@ main {
   font-size: 1.6rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+body.signupBody {
+  font-family: Arial;
+  max-width: 400px;
+  margin: 40px auto;
+}
+
+.signupBody .error {
+  color: red;
+  font-weight: bold;
+}
+
+.signupBody .success {
+  color: green;
+  font-weight: bold;
+}
+
+.signupBody label {
+  font-weight: bold;
+}
