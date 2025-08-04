@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Homepage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="SimpleTax Homepage: Start filling your W-1040 or W-2 forms easily. View tax brackets, filing deadlines, and compare filing options." />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -10,6 +14,7 @@
       margin: 0;
       padding: 20px;
       text-align: center;
+      color: #222;
     }
 
     h1 {
@@ -28,15 +33,17 @@
       padding: 30px;
       width: 250px;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       text-align: left;
       transition: transform 0.2s ease;
       cursor: pointer;
+      border: 2px solid transparent;
     }
 
     .card:hover {
       transform: scale(1.03);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      border-color: #003d80;
     }
 
     .card h2 {
@@ -44,35 +51,150 @@
       color: #003d80;
     }
 
+    .card p {
+      color: #333;
+    }
+
     .logout-btn {
       margin-top: 40px;
       padding: 10px 20px;
       font-size: 16px;
-      background-color: #e74c3c;
-      color: white;
+      background-color: #d93b2e;
+      color: #fff;
       border: none;
       border-radius: 6px;
       cursor: pointer;
     }
 
     .logout-btn:hover {
-      background-color: #c0392b;
+      background-color: #a62820;
+    }
+
+    .info-section {
+      margin-top: 50px;
+      text-align: left;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .info-section h2 {
+      color: #003d80;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid #ccc;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+      color: #222;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    ul {
+      padding-left: 20px;
+      color: #222;
+    }
+
+    a {
+      color: #003d80;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
   <h1 id="welcomeText">Welcome!</h1>
 
   <div class="card-container">
-    <div class="card" onclick="location.href='w1040.html'">
+    <div class="card" onclick="location.href='w1040.html'" role="link" tabindex="0" aria-label="Fill out W-1040 form">
       <h2>Fill Out W-1040</h2>
       <p>Get started on your W-1040 federal tax return form. Click here to begin filling out your details securely.</p>
     </div>
 
-    <div class="card" onclick="location.href='w-2.html'">
+    <div class="card" onclick="location.href='w-2.html'" role="link" tabindex="0" aria-label="View W-2 form">
       <h2>View W-2</h2>
       <p>Access your W-2 form for employment income reporting. Make sure your information is accurate.</p>
     </div>
+
+
+    <div class="card" onclick="location.href='resources.html'" role="link" tabindex="0"
+      aria-label="Tax Resources and External Help">
+      <h2>Tax Resources</h2>
+      <p>Access helpful links like the IRS website, tax guides, refund trackers, and official instructions.</p>
+    </div>
+  </div>
+
+
+  <div class="info-section">
+    <h2>Income Brackets 2025</h2>
+    <table>
+      <tr>
+        <th>Income Range</th>
+        <th>Tax Rate</th>
+      </tr>
+      <tr>
+        <td>$0 – $11,000</td>
+        <td>10%</td>
+      </tr>
+      <tr>
+        <td>$11,001 – $44,725</td>
+        <td>12%</td>
+      </tr>
+      <tr>
+        <td>$44,726 – $95,375</td>
+        <td>22%</td>
+      </tr>
+    </table>
+
+    <h2 style="margin-top: 40px;">Tax Filing Deadlines</h2>
+    <ul>
+      <li>January 31, 2025 – Deadline for employers to send W-2s</li>
+      <li>April 15, 2025 – Federal tax return due date</li>
+      <li>October 15, 2025 – Extension deadline</li>
+    </ul>
+
+    <h2 style="margin-top: 40px;">Comparison of Filing Options</h2>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Cost</th>
+        <th>Features</th>
+      </tr>
+      <tr>
+        <td>IRS Free File</td>
+        <td>Free</td>
+        <td>Basic guided tax return filing</td>
+      </tr>
+      <tr>
+        <td>Tax Software (TurboTax, etc.)</td>
+        <td>$0–$100+</td>
+        <td>Guided filing with audit protection options</td>
+      </tr>
+      <tr>
+        <td>Professional CPA</td>
+        <td>$150–$500+</td>
+        <td>Best for complex returns or businesses</td>
+      </tr>
+    </table>
   </div>
 
   <button class="logout-btn" onclick="logout()">Log Out</button>
@@ -92,4 +214,5 @@
     }
   </script>
 </body>
+
 </html>
