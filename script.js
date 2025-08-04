@@ -45,7 +45,7 @@ if (signupForm) {
     users[email] = hashedPassword;
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("username", email);
-    window.location.href = "homepage.html";
+    window.location.href = "Homepage.html";
   });
 }
 
@@ -72,6 +72,6 @@ if (loginForm) {
       return;
     }
     localStorage.setItem("username", email);
-    window.location.href = "homepage.html";
+    window.location.href = "Homepage.html";
   });
 }
