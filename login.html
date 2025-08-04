@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Login to SimpleTax to access your tax forms and saved data. Secure and easy tax filing made simple.">
+  <meta charset="UTF-8" />
   <title>Login - SimpleTax</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Login to SimpleTax to access your tax forms and saved data. Secure and easy tax filing made simple." />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -17,7 +15,6 @@
       height: 100vh;
       margin: 0;
     }
-
     .login-container {
       background: white;
       padding: 20px 30px;
@@ -26,11 +23,9 @@
       width: 300px;
       text-align: center;
     }
-
     .login-container h2 {
       margin-bottom: 20px;
     }
-
     input {
       width: 100%;
       padding: 10px;
@@ -39,7 +34,6 @@
       border-radius: 5px;
       font-size: 16px;
     }
-
     button {
       width: 100%;
       padding: 10px;
@@ -50,31 +44,25 @@
       font-size: 16px;
       cursor: pointer;
     }
-
     button:hover {
       background: #002a5c;
     }
-
     .error {
       color: red;
       font-weight: bold;
     }
   </style>
 </head>
-
 <body>
-
   <div class="login-container">
     <h2>Login</h2>
     <form id="loginForm">
-      <input type="text" id="email" placeholder="Username or Email" required>
-      <input type="password" id="password" placeholder="Password" required>
+      <input type="text" id="email" placeholder="Username or Email" required />
+      <input type="password" id="password" placeholder="Password" required />
       <button type="submit">Log In</button>
     </form>
     <p id="errorMessage" class="error"></p>
   </div>
-
   <script src="script.js"></script>
 </body>
-
 </html>
